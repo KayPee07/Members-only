@@ -1,0 +1,39 @@
+<h1 class="mt-4">Dashboard</h1>
+<p class="lead mb-3">Welcome <%= user.name %>
+</p>
+<a href="/users/logout" class="btn btn-secondary">Logout</a>
+<hr>
+<label for="">Message:</label>
+<textarea class="form-control" rows="5" id="text" name="text" placeholder="write your message here..."
+    required></textarea>
+<br>
+<input type="submit" value="Send Msg" id="submit" />
+<div class="display">
+    <table class="table table-striped mt-5">
+        <thead>
+            <th>Messages</th>
+            <th>Date</th>
+        </thead>
+        <tbody id="list">
+
+        </tbody>
+
+    </table>
+</div>
+<script>
+    fetch(`http://localhost:5000/text`)
+  .then((res) => {
+    return res.json();
+  })
+  .then((data) => display(data));
+function display(data) {
+  document.getElementById("list").innerHTML = "";
+
+  for (let i = 0; i < data.length; i++) {
+    const row = document.createElement("tr");
+    row.innerHTML = `<td> ${data[i].text} </td><td> ${data[i].date} </td>`;
+
+    document.getElementById("list").appendChild(row);
+  }
+}
+</script>
